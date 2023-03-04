@@ -2,8 +2,11 @@ import { useState } from 'react'
 import AddButton from './Components/AddButton'
 
 function App() {
-  
-  const [tasks, setTasks] = useState([])
+
+  const [tasks, setTasks] = useState(() => {
+    const storedTasks = localStorage.getItem('tasks') ? JSON.parse(localStorage.getItem('tasks')) : []
+    return storedTasks
+  })
   const [newTask, setNewTask] = useState('')
   const [editingTask, setEditingTask] = useState('')
   const [editing, setEditing] = useState(false)
@@ -11,11 +14,15 @@ function App() {
   const addTask = () => {
       setNewTask('')
       if (newTask) {
-        let newTaskId = tasks.length + 1
-        setTasks([
+        const newTaskId = tasks.length + 1
+        const newTasks = [
           ...tasks,
           {id: newTaskId, text: newTask}
+        ]
+        setTasks([
+          ...newTasks
         ])
+        localStorage.setItem('tasks', JSON.stringify(newTasks))
       }
   }
 
@@ -31,6 +38,7 @@ function App() {
       setTasks([
         ...edittedTask
       ])
+      localStorage.setItem('tasks', JSON.stringify(tasks))
       setEditing(false)
     }
   }
@@ -63,6 +71,7 @@ function App() {
                       <button onClick={() => {
                         const filtteredTasks = tasks.filter(item => item.id !== task.id)
                         setTasks([...filtteredTasks])
+                        localStorage.setItem('tasks', JSON.stringify(filtteredTasks))
                       }}><i className="fa-solid fa-trash text-red-600"></i></button>
                     </span>
                   </li>
