@@ -31,7 +31,18 @@ function App() {
           <div className='w-full h-fit bg-slate-200'>
             <ul className='w-full h-full'>
               {
-                tasks.map(task => (<li key={task.id} className='p-3 border-2 border-white flex place-content-between'>{task.text} <span className='flex gap-4 items-center'><button><i class="fa-solid fa-pen-to-square text-blue-500"></i></button><button><i class="fa-solid fa-trash text-red-600"></i></button></span></li>))
+                tasks.map(task => (
+                  <li key={task.id} className='p-3 border-2 border-white flex place-content-between'>
+                    {task.text} 
+                    <span className='flex gap-4 items-center'>
+                      <button><i className="fa-solid fa-pen-to-square text-blue-500"></i></button>
+                      <button onClick={() => {
+                        const filtteredTasks = tasks.filter(item => item.id !== task.id)
+                        setTasks([...filtteredTasks])
+                      }}><i className="fa-solid fa-trash text-red-600"></i></button>
+                    </span>
+                  </li>
+                ))
               }
             </ul>
           </div>
