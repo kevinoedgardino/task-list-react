@@ -14,7 +14,7 @@ function App() {
   const addTask = () => {
       setNewTask('')
       if (newTask) {
-        const newTaskId = tasks.length + 1
+        const newTaskId = tasks.length ? tasks.at(-1).id + 1 : 1
         const newTasks = [
           ...tasks,
           {id: newTaskId, text: newTask}
@@ -22,6 +22,7 @@ function App() {
         setTasks([
           ...newTasks
         ])
+        console.log(tasks)
         localStorage.setItem('tasks', JSON.stringify(newTasks))
       }
   }
